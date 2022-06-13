@@ -30,7 +30,7 @@ O.engines = [
         ]
     ),
     NewtonIntegrator(damping=.4, gravity=(0, 0, -gravitational_acceleration)),
-    DomainLimiter(lo=(-tray_radius , -tray_radius, 0), hi=(tray_radius, tray_radius, particle_sample_height), iterPeriod=10),
+    DomainLimiter(lo=(-tray_radius , -tray_radius, 0), hi=(tray_radius, tray_radius, 2 * device_height), iterPeriod=10),
     PyRunner(command='startLiftingIfSteady()', iterPeriod=1),
     PyRunner(command='stopLifting()', iterPeriod=1),
     PyRunner(command='waitingForSteadyState()', iterPeriod=1),
