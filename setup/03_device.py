@@ -1,8 +1,8 @@
 from yade import geom, pack
 
 device_cyl_segments_number = 20
-device_inner_diameter = 0.05
-device_height = 0.2
+device_inner_diameter = tray_radius * 2
+device_height = particle_sample_height
 device_plate_width = 0.1
 
 device_moving = []

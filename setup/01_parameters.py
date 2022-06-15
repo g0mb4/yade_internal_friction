@@ -13,5 +13,5 @@ steel_Young_modulus = 2.1e8  # Pa
 steel_Poisson_s_ratio = 0.3  # -
 steel_friction_angle= 0.52  # -
 
-particle_sample_height = 50 * particle_radius  # m
+particle_sample_height = 40 * particle_radius  # m
 tray_radius = 25 * particle_radius   # m
