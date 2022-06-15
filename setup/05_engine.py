@@ -47,7 +47,7 @@ def startLiftingIfSteady():
     if state != State.INIT:
         return
 
-    if O.time < 1:
+    if O.time < 0.3:
         return
 
     if unbalancedForce() > 0.2:
@@ -111,7 +111,13 @@ def measuring():
         now = datetime.now()
         d = now.strftime('%Y-%m-%d')
         t = now.strftime('%H:%M:%S')
-        f.write(f"{d};{t};{pos_max[0]};{pos_max[1]};{pos_max[2]}\n")
+        r = particle_radius
+        a = particle_friction_angle
+        x = pos_max[0]
+        y = pos_max[1]
+        z = pos_max[2]
+        aa = math.atan(z/tray_radius)
+        f.write(f"{d};{t};{r};{a};{x};{y};{z};{aa}\n")
 
     O.pause()
     

@@ -1,4 +1,4 @@
-from yade import geom, pack
+from yade import geom
 
 device_cyl_segments_number = 20
 device_inner_diameter = tray_radius * 2
