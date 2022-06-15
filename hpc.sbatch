@@ -7,7 +7,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 24
-#SBATCH -o %j.out-%N
+#SBATCH -o %j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=toth.janos@uni-mate.hu
 
