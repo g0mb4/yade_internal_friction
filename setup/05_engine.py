@@ -3,6 +3,14 @@ from datetime import datetime
 from enum import Enum
 import math 
 
+measureStart = datetime.now()
+data_directory = f"./data-{measureStart.now().strftime('%Y-%m-%dT%H_%M_%S-%f')}"
+vtk_prefix = os.path.join(data_directory, 'vtk-')
+
+os.mkdir(data_directory)
+
+print(f"data_directory={data_directory}")
+
 class State(Enum):
     INIT = 0
     LIFTING = 1
@@ -35,6 +43,7 @@ O.engines = [
     PyRunner(command='stopLifting()', iterPeriod=1),
     PyRunner(command='waitingForSteadyState()', iterPeriod=1),
     PyRunner(command='measuring()', iterPeriod=1),
+    VTKRecorder(fileName=vtk_prefix, recorders=['spheres'], iterPeriod=1000)
 ]
 
 O.dt = 0.2 * PWaveTimeStep()
@@ -63,7 +72,7 @@ def stopLifting():
     if state != State.LIFTING:
         return
 
-    if O.bodies[device_moving_id].state.pos[2] > device_height:
+    if O.bodies[device_moving_id].state.pos[2] > device_height/2:
         O.bodies[device_moving_id].state.vel = (0, 0, 0)
         state = State.WAITING
         print("lifting stopped, waiting for steady state")
@@ -104,20 +113,21 @@ def measuring():
 
             if pos[2] > pos_max[2]:
                 pos_max = pos
-                
-    print(f"pos_max = {pos_max}")
-
+            
     with open("data.csv", "a") as f:
         now = datetime.now()
-        d = now.strftime('%Y-%m-%d')
-        t = now.strftime('%H:%M:%S')
+        d = measureStart.strftime('%Y-%m-%d')
+        t = measureStart.strftime('%H:%M:%S')
         r = particle_radius
         a = particle_friction_angle
         x = pos_max[0]
         y = pos_max[1]
         z = pos_max[2]
         aa = math.atan(z/tray_radius)
-        f.write(f"{d};{t};{r};{a};{x};{y};{z};{aa}\n")
+        
+        data = f"{d};{t};{r};{a};{x};{y};{z};{aa}"
+        f.write(f"{data}\n")
+        print(f"DONE\n{data}")
 
     O.pause()
     
